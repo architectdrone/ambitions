@@ -6,7 +6,7 @@ CREATE TABLE ambitions (
 CREATE TABLE virtues (
     id INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
-    ambition INTERGER,
+    ambition INTEGER,
     FOREIGN KEY(ambition) REFERENCES ambitions(id)
 );
 
@@ -29,7 +29,7 @@ CREATE TABLE infinite_projects(
 CREATE TABLE tasks(
     id INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
-    finite_project INTERGER,
+    finite_project INTEGER,
     parent INTEGER,
     FOREIGN KEY(finite_project) REFERENCES finite_projects(id),
     FOREIGN KEY(parent) REFERENCES tasks(id)
