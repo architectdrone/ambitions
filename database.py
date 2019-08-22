@@ -1,7 +1,7 @@
 import sqlite3
 import os
 
-MOST_RECENT_DB_VERSION = 1
+MOST_RECENT_DB_VERSION = 0
 
 DB_NAME = 'ambition.db'
 
