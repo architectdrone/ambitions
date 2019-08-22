@@ -57,3 +57,23 @@ class database():
     def __del__(self):
         self.connection.commit()
         self.connection.close()
+
+class databaseWrapper():
+    def __init__(self):
+        self.database = database()
+    
+    def _parse(self, list_to_parse, table):
+        '''
+        Takes in a single db record. Returns a dictionary with the same information.
+        @param list_to_parse A single DB record.
+        @param table The table from which list_to_parse came.
+        @return A dictionary. The keys are the names of the columns, the values are the values from the record.
+        '''
+
+        columns = [i[1] for i in self.database.get(f"PRAGMA table_info({table});")]
+        print(columns)
+        print(list_to_parse)
+        to_return = {}
+        for key, value in zip(columns, list_to_parse):
+            to_return[key] = value
+        return to_return
