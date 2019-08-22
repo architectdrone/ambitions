@@ -62,6 +62,27 @@ class databaseWrapper():
     def __init__(self):
         self.database = database()
     
+    def search(self, table, search = (), limit = -1):
+        '''
+        Searches a table. If query is not specified, return all records. If it is, return only those records that match the query.
+        @param table The table to search in.
+        @param search A tuple that specifies a search query. The first element is the key, the second element is the value.
+        @param limit The limit.
+        @return A list of dictionaries that matches the query.
+        '''
+
+        query = f"SELECT * FROM {table} "
+        if search != ():
+            query += f'WHERE {search[0]} = '
+            if type(search[1]) is str:
+                query += f'"{search[1]}" '
+            else:
+                query += f'{search[1]} '
+        if limit > 0:
+            query+=f"LIMIT {limit}"
+        print(query)
+        return self._parse_query(query, table)
+
     def _parse(self, list_to_parse, table):
         '''
         Takes in a single db record. Returns a dictionary with the same information.
@@ -76,4 +97,16 @@ class databaseWrapper():
         to_return = {}
         for key, value in zip(columns, list_to_parse):
             to_return[key] = value
+        return to_return
+
+    def _parse_query(self, query, table):
+        '''
+        Takes in a query, returns results.
+        @param list_to_parse A single DB record.
+        @param table The table from which list_to_parse came.
+        @return A list of dictionaries.
+        '''
+        to_return = []
+        for i in self.database.get(query):
+            to_return.append(self._parse(i, table))
         return to_return
