@@ -61,7 +61,7 @@ class database():
 class databaseWrapper():
     def __init__(self):
         self.database = database()
-    
+
     def search(self, table, search = (), limit = -1):
         '''
         Searches a table. If query is not specified, return all records. If it is, return only those records that match the query.
@@ -80,8 +80,10 @@ class databaseWrapper():
                 query += f'{search[1]} '
         if limit > 0:
             query+=f"LIMIT {limit}"
-        print(query)
-        return self._parse_query(query, table)
+        return self._parseQuery(query, table)
+
+    def getColumnNames(self, table):
+        return [i[1] for i in self.database.get(f"PRAGMA table_info({table});")]
 
     def _parse(self, list_to_parse, table):
         '''
@@ -91,15 +93,12 @@ class databaseWrapper():
         @return A dictionary. The keys are the names of the columns, the values are the values from the record.
         '''
 
-        columns = [i[1] for i in self.database.get(f"PRAGMA table_info({table});")]
-        print(columns)
-        print(list_to_parse)
         to_return = {}
-        for key, value in zip(columns, list_to_parse):
+        for key, value in zip(self.getColumnNames(table), list_to_parse):
             to_return[key] = value
         return to_return
 
-    def _parse_query(self, query, table):
+    def _parseQuery(self, query, table):
         '''
         Takes in a query, returns results.
         @param list_to_parse A single DB record.
