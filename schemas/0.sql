@@ -4,14 +4,14 @@ CREATE TABLE ambitions (
 );
 
 CREATE TABLE virtues (
-    id INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     ambition INTEGER,
     FOREIGN KEY(ambition) REFERENCES ambitions(id)
 );
 
 CREATE TABLE finite_projects(
-    id INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     parent INTEGER,
     infinite_project INTEGER,
@@ -20,14 +20,14 @@ CREATE TABLE finite_projects(
 );
 
 CREATE TABLE infinite_projects(
-    id INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     parent INTEGER,
     FOREIGN KEY(parent) REFERENCES finite_projects(id)
 );
 
 CREATE TABLE tasks(
-    id INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     finite_project INTEGER,
     parent INTEGER,
@@ -36,14 +36,14 @@ CREATE TABLE tasks(
 );
 
 CREATE TABLE positives(
-    id INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     infinite_project INTEGER,
     FOREIGN KEY(infinite_project) REFERENCES infinite_projects(id)
 );
 
 CREATE TABLE negatives(
-    id INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     infinite_project INTEGER,
     FOREIGN KEY(infinite_project) REFERENCES infinite_projects(id)
